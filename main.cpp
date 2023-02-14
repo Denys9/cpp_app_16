@@ -1,71 +1,80 @@
 #include <iostream>
 #include <ctime>
 using namespace std;
-
-int** addColumn(int**& a, int m, int n, int value)
-{
-    int** tmp = new int* [n + value];
-    for (int i = m - 1; i >= 0; i--)
-    {
-        tmp[i + value] = a[i];
-    }
-    for (int i = 0; i < value; i++)
-    {
-        tmp[i] = new int[m];
-    }
-    return tmp;
-}
-
-
 int main()
 {
+    int col = 5, row = 5;
     srand(time(0));
-    int randd;
-    int i, j;
-    int colon, line;
-    cout << "colon < line - ";
-    cin >> colon;
-    cout << "\nline - ";
-    cin >> line;
-    int** array = new int* [line];
-    for (i = 0; i < line; i++)
+    int** arr_2d = new int* [col];
+    int* rows = new int[col];
+    for (size_t i = 0; i < col; i++)
     {
-        array[i] = new int[colon];
-    }
-    for (i = 0; i < colon; i++)
-    {
-        for (j = 0; j < line; j++)
+        arr_2d[i] = new int[row];
+        rows[i] = row;
+        for (size_t j = 0; j < row; j++)
         {
-            array[i][j] = randd;
-            for (size_t j = 0; j < randd; j++)
-            {
-                array[i][j] = rand() % 10;
-            }
-            cout << array[i][j] << '\t';
+            arr_2d[i][j] = rand() % 10;
         }
-        cout << '\n';
     }
-    int add;
-    cout << "add - ";
-    cin >> add;
-    array = addColumn(array, colon, line, add);
-    colon += add;
-    for (i = 0; i < colon; i++)
+    //--------------PRINT----------------
+    cout << "<---------1ST ARRAY--------------------->" << endl;
+    for (size_t i = 0; i < col; i++)
     {
-        for (j = 0; j < line; j++)
+        cout << "Row [" << i << "]:  ";
+        for (size_t j = 0; j < rows[i]; j++)
         {
-            array[i][j] = randd;
-            for (size_t j = 0; j < randd; j++)
-            {
-                array[i][j] = rand() % 10;
-            }
-            cout << array[i][j] << '\t';
+            cout << arr_2d[i][j] << '\t';
         }
-        cout << '\n';
+        cout << endl;
     }
-    cout << '\n';
 
-    for (i = 0; i < colon; i++)
-        delete[]array[i];
-    delete[]array;
+    //--------------ADDING-----------------
+    int** arr_2d_2 = new int* [col + 1];
+    int* rows_2 = new int[col + 1];
+    int index = col + 1;
+    for (size_t i = 0; i < col + 1; i++)
+    {
+        arr_2d_2[i] = new int[row];
+        rows_2[i] = row;
+        for (size_t j = 0; j < row; j++)
+        {
+            if (i < col)
+            {
+                for (size_t j = 0; j < row; j++)
+                {
+                    arr_2d_2[i][j] = arr_2d[i][j];
+                }
+            }
+            else
+            {
+                arr_2d_2[i][j] = rand() % 10;
+            }
+        }
+    }
+
+    cout << endl << "\n";
+    //--------------PRINT2----------------
+    cout << "<---------2ND ARRAY--------------------->" << endl;
+    for (size_t i = 0; i < index; i++)
+    {
+        cout << "Row [" << i << "]:  ";
+        for (size_t j = 0; j < row; j++)
+        {
+            cout << arr_2d_2[i][j] << '\t';
+        }
+        cout << endl;
+    }
+    //--------------DELETE----------------
+    for (size_t i = 0; i < col; i++)
+    {
+        delete[] arr_2d[i];
+    }
+    delete[] arr_2d;
+
+    for (size_t i = 0; i < col; i++)
+    {
+        delete[] arr_2d_2[i];
+    }
+    delete[] arr_2d_2;
+    return 0;
 }
